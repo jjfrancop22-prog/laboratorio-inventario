@@ -1370,37 +1370,78 @@ td.param{font-weight:600;color:var(--navy);max-width:200px;overflow:hidden;text-
 &lt;script src=&quot;https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
 (function(){
-  const cfg={apiKey:&quot;AIzaSyAWyaYt_MPVuNbtFEzDSG27Wezo_tcebqs&quot;,authDomain:&quot;laboratorio-inventario.firebaseapp.com&quot;,projectId:&quot;laboratorio-inventario&quot;,storageBucket:&quot;laboratorio-inventario.firebasestorage.app&quot;,messagingSenderId:&quot;422673655925&quot;,appId:&quot;1:422673655925:web:98be5a8e86d93a9b87f03c&quot;};
-  try{
-    const n=&#x27;tend_app&#x27;;
-    const ex=firebase.apps.find(a=&gt;a.name===n);
-    window._tendDb=ex?firebase.app(n).firestore():firebase.initializeApp(cfg,n).firestore();
-    console.log(&#x27;Firebase Tendencias: OK&#x27;);
-  }catch(e){console.warn(&#x27;Firebase Tend:&#x27;,e.message);}
-  window.saveTendenciasFirebase=async function(data){
-    if(!window._tendDb)return;
-    try{
-      const col=window._tendDb.collection(&#x27;tendencias_registros&#x27;);
-      const cs=200,cc=[],tc=[];
-      for(let i=0;i&lt;(data.carga||[]).length;i+=cs)cc.push((data.carga||[]).slice(i,i+cs));
-      for(let i=0;i&lt;(data.tendencia||[]).length;i+=cs)tc.push((data.tendencia||[]).slice(i,i+cs));
-      await col.doc(&#x27;meta&#x27;).set({cargaChunks:cc.length,tendChunks:tc.length,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
-      for(let i=0;i&lt;cc.length;i++)await col.doc(&#x27;carga_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).set({idx:i,rows:cc[i]});
-      for(let i=0;i&lt;tc.length;i++)await col.doc(&#x27;tend_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).set({idx:i,rows:tc[i]});
-      console.log(&#x27;Tendencias saved&#x27;);
-    }catch(e){console.warn(&#x27;Save tend:&#x27;,e.message);}
+  const _cfg={
+    apiKey:&quot;AIzaSyAWyaYt_MPVuNbtFEzDSG27Wezo_tcebqs&quot;,
+    authDomain:&quot;laboratorio-inventario.firebaseapp.com&quot;,
+    projectId:&quot;laboratorio-inventario&quot;,
+    storageBucket:&quot;laboratorio-inventario.firebasestorage.app&quot;,
+    messagingSenderId:&quot;422673655925&quot;,
+    appId:&quot;1:422673655925:web:98be5a8e86d93a9b87f03c&quot;
   };
-  window.loadTendenciasFirebase=async function(){
-    if(!window._tendDb)return null;
+  try{
+    const _n=&#x27;tend_app&#x27;;
+    const _ex=firebase.apps.find(a=&gt;a.name===_n);
+    window._tendDb=_ex ? firebase.app(_n).firestore() : firebase.initializeApp(_cfg,_n).firestore();
+    console.log(&#x27;[Tendencias] Firebase conectado ✓&#x27;);
+  }catch(e){console.warn(&#x27;[Tendencias] Firebase error:&#x27;,e.message);}
+
+  // ── SAVE: splits into 200-row chunks to stay under Firestore 1MB limit ──
+  window._tendSave = async function(){
+    if(!window._tendDb) return;
     try{
-      const col=window._tendDb.collection(&#x27;tendencias_registros&#x27;);
-      const meta=await col.doc(&#x27;meta&#x27;).get();
-      if(!meta.exists)return null;
-      const d=meta.data();let carga=[],tendencia=[];
-      for(let i=0;i&lt;d.cargaChunks;i++){const s=await col.doc(&#x27;carga_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).get();if(s.exists)carga=carga.concat(s.data().rows||[]);}
-      for(let i=0;i&lt;d.tendChunks;i++){const s=await col.doc(&#x27;tend_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).get();if(s.exists)tendencia=tendencia.concat(s.data().rows||[]);}
-      return{carga,tendencia};
-    }catch(e){console.warn(&#x27;Load tend:&#x27;,e.message);return null;}
+      const col = window._tendDb.collection(&#x27;tendencias_registros&#x27;);
+      const CS = 200;
+      const cargaChunks=[], tendChunks=[];
+      for(let i=0;i&lt;DB.carga.length;i+=CS)    cargaChunks.push(DB.carga.slice(i,i+CS));
+      for(let i=0;i&lt;DB.tendencia.length;i+=CS) tendChunks.push(DB.tendencia.slice(i,i+CS));
+
+      // Write meta doc first
+      await col.doc(&#x27;_meta&#x27;).set({
+        cargaChunks: cargaChunks.length,
+        tendChunks:  tendChunks.length,
+        totalCarga:  DB.carga.length,
+        totalTend:   DB.tendencia.length,
+        savedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      // Write carga chunks
+      for(let i=0;i&lt;cargaChunks.length;i++)
+        await col.doc(&#x27;c_&#x27;+String(i).padStart(4,&#x27;0&#x27;)).set({i, rows: cargaChunks[i]});
+      // Write tendencia chunks
+      for(let i=0;i&lt;tendChunks.length;i++)
+        await col.doc(&#x27;t_&#x27;+String(i).padStart(4,&#x27;0&#x27;)).set({i, rows: tendChunks[i]});
+
+      console.log(&#x27;[Tendencias] Guardado FB: &#x27;+DB.carga.length+&#x27; carga, &#x27;+DB.tendencia.length+&#x27; tend&#x27;);
+    }catch(e){console.warn(&#x27;[Tendencias] Save error:&#x27;,e.message);}
+  };
+
+  // ── LOAD: reads all chunks and merges into DB ──
+  window._tendLoad = async function(){
+    if(!window._tendDb) return false;
+    try{
+      const col  = window._tendDb.collection(&#x27;tendencias_registros&#x27;);
+      const meta = await col.doc(&#x27;_meta&#x27;).get();
+      if(!meta.exists){ console.log(&#x27;[Tendencias] No hay datos en Firebase aún&#x27;); return false; }
+      const d = meta.data();
+      let carga=[], tendencia=[];
+
+      for(let i=0;i&lt;d.cargaChunks;i++){
+        const s=await col.doc(&#x27;c_&#x27;+String(i).padStart(4,&#x27;0&#x27;)).get();
+        if(s.exists) carga=carga.concat(s.data().rows||[]);
+      }
+      for(let i=0;i&lt;d.tendChunks;i++){
+        const s=await col.doc(&#x27;t_&#x27;+String(i).padStart(4,&#x27;0&#x27;)).get();
+        if(s.exists) tendencia=tendencia.concat(s.data().rows||[]);
+      }
+
+      // Replace DB arrays completely (not merge — avoids duplicates)
+      DB.carga.length = 0;
+      DB.tendencia.length = 0;
+      DB.carga.push(...carga);
+      DB.tendencia.push(...tendencia);
+
+      console.log(&#x27;[Tendencias] Cargado desde FB: &#x27;+carga.length+&#x27; carga, &#x27;+tendencia.length+&#x27; tend&#x27;);
+      return true;
+    }catch(e){console.warn(&#x27;[Tendencias] Load error:&#x27;,e.message); return false;}
   };
 })();
 &lt;/script&gt;
@@ -2220,7 +2261,8 @@ function processUpload() {
   tend_render();
   buildKPIs();
   alert(msg);
-  if(window.saveTendenciasFirebase){window.saveTendenciasFirebase({carga:DB.carga,tendencia:DB.tendencia});}
+  // Auto-save to Firebase after import
+  window._tendSave();
 }
 
 // Calculate all Tendencia columns for a new REC row
@@ -2543,6 +2585,7 @@ function saveEdit() {
     const row = document.getElementById(`cm-row-${idx}`);
     if(row){ row.style.transition=&#x27;background 0.3s&#x27;; row.style.background=&#x27;#ECFDF5&#x27;; }
   }, 100);
+  window._tendSave();
 }
 
 function confirmDelete(idx) {
@@ -2579,6 +2622,7 @@ function deleteRow(idx) {
   cm_render();
   tend_render();
   buildKPIs();
+  window._tendSave();
 }
 
 // ══════════════════════════════════════════════════════
@@ -2852,23 +2896,17 @@ function c25_render(){
 // INIT
 // ══════════════════════════════════════════════════════
 window.addEventListener(&#x27;DOMContentLoaded&#x27;, ()=&gt;{
+  // Load from Firebase first, then render with fresh data
   (async function(){
-    try{
-      const fb=await window.loadTendenciasFirebase();
-      if(fb&amp;&amp;(fb.carga.length&gt;0||fb.tendencia.length&gt;0)){
-        DB.carga.push(...fb.carga.filter(r=&gt;!DB.carga.some(e=&gt;e.clave===r.clave)));
-        DB.tendencia.push(...fb.tendencia.filter(r=&gt;!DB.tendencia.some(e=&gt;e.id_traz===r.id_traz)));
-        console.log(&#x27;FB Tendencias loaded:&#x27;,fb.carga.length,&#x27;+&#x27;,fb.tendencia.length);
-      }
-    }catch(e){console.warn(&#x27;FB load err:&#x27;,e);}
-  })();
-  buildKPIs();
-  cm_render();
-  tend_render();
-  crit_render();
-  res_render();
-  r25_render();
-  c25_render();
+    const loaded = await window._tendLoad();
+    buildKPIs();
+    cm_render();
+    tend_render();
+    crit_render();
+    res_render();
+    r25_render();
+    c25_render();
+    if(loaded) console.log(&#x27;[Tendencias] UI actualizada con datos Firebase&#x27;);
   // Auto-draw chart for first param
   const firstParam = DB.tendencia[0]?.parametro;
   if(firstParam){
@@ -2898,6 +2936,7 @@ window.addEventListener(&#x27;DOMContentLoaded&#x27;, ()=&gt;{
     if(el) el.addEventListener(&#x27;input&#x27;, updateEditPreview);
     if(el) el.addEventListener(&#x27;change&#x27;, updateEditPreview);
   });
+  })(); // close async IIFE
 });
 &lt;/script&gt;
 &lt;/body&gt;
