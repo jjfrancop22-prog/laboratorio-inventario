@@ -43,14 +43,18 @@ iframe.active{display:block}
 <nav id="mainnav">
   <div class="nav-logo">
     <strong>PSI · CALIDAD</strong>
-    <span>Sistema Integrado</span>
+    <span>Sistema Integrado · Firebase: laboratorio-inventario</span>
   </div>
   <div class="nav-sep"></div>
   <button class="nav-tab active" onclick="show('f1')">🧪 Control de Muestreo</button>
   <button class="nav-tab" onclick="show('f2')">🔬 Aseguramiento QA</button>
   <button class="nav-tab" onclick="show('f3')">📊 Cumplimiento CC</button>
   <button class="nav-tab" onclick="show('f4')">📈 Tendencias y Análisis</button>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:#6ee7b7;padding-right:10px;white-space:nowrap">
+    <span style="width:8px;height:8px;border-radius:50%;background:#6ee7b7;display:inline-block;animation:fbpls 2s infinite"></span>Firebase activo
+  </div>
 </nav>
+<style>@keyframes fbpls{0%,100%{opacity:1}50%{opacity:.3}}</style>
 <div class="frame-container">
   <iframe id="f1" class="active" srcdoc="<!doctype html>
 <html lang=&quot;es&quot;>
@@ -1083,6 +1087,8 @@ renderAll();
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js';
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js';
 window.firebaseFns={initializeApp,getFirestore,doc,setDoc,getDoc,serverTimestamp};
+const _cfgCC={apiKey:&quot;AIzaSyAWyaYt_MPVuNbtFEzDSG27Wezo_tcebqs&quot;,authDomain:&quot;laboratorio-inventario.firebaseapp.com&quot;,projectId:&quot;laboratorio-inventario&quot;,storageBucket:&quot;laboratorio-inventario.firebasestorage.app&quot;,messagingSenderId:&quot;422673655925&quot;,appId:&quot;1:422673655925:web:98be5a8e86d93a9b87f03c&quot;};
+try{const _ccApp=initializeApp(_cfgCC,'cc_app');window._autoDb=getFirestore(_ccApp);}catch(e){console.warn('CC Firebase:',e.message);}
 </script>
 <script>
 const RISK = [{&quot;parametro&quot;: &quot;Aceites y grasas&quot;, &quot;total2025&quot;: 3268, &quot;corridas2025&quot;: 174, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Infrarrojo (TPH/AyG)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Alcalinidad&quot;, &quot;total2025&quot;: 30, &quot;corridas2025&quot;: 8, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Volumetría&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Aluminio&quot;, &quot;total2025&quot;: 217, &quot;corridas2025&quot;: 34, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Nitrógeno Amoniacal&quot;, &quot;total2025&quot;: 598, &quot;corridas2025&quot;: 87, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis 2 pasos&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;arsénico&quot;, &quot;total2025&quot;: 242, &quot;corridas2025&quot;: 33, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Bario&quot;, &quot;total2025&quot;: 452, &quot;corridas2025&quot;: 41, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Boro&quot;, &quot;total2025&quot;: 15, &quot;corridas2025&quot;: 5, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Cadmio&quot;, &quot;total2025&quot;: 563, &quot;corridas2025&quot;: 60, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Cianuro total&quot;, &quot;total2025&quot;: 18, &quot;corridas2025&quot;: 6, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;UV-Vis 2 pasos&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Cloruros&quot;, &quot;total2025&quot;: 1095, &quot;corridas2025&quot;: 95, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Volumetría&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Cobalto&quot;, &quot;total2025&quot;: 184, &quot;corridas2025&quot;: 33, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Cobre&quot;, &quot;total2025&quot;: 420, &quot;corridas2025&quot;: 50, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Coliformes fecales&quot;, &quot;total2025&quot;: 1693, &quot;corridas2025&quot;: 186, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Número Más Probable (NMP)&quot;, &quot;factibilidad&quot;: 3}, {&quot;parametro&quot;: &quot;Coliformes totales&quot;, &quot;total2025&quot;: 212, &quot;corridas2025&quot;: 63, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Número Más Probable (NMP)&quot;, &quot;factibilidad&quot;: 3}, {&quot;parametro&quot;: &quot;Color&quot;, &quot;total2025&quot;: 277, &quot;corridas2025&quot;: 43, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Conductividad&quot;, &quot;total2025&quot;: 73, &quot;corridas2025&quot;: 19, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Electrometría&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Cromo&quot;, &quot;total2025&quot;: 395, &quot;corridas2025&quot;: 41, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Cromo Hexavalente&quot;, &quot;total2025&quot;: 321, &quot;corridas2025&quot;: 47, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Demanda Bioquímica de Oxígeno (DBO5)&quot;, &quot;total2025&quot;: 4340, &quot;corridas2025&quot;: 231, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;DBO5&quot;, &quot;factibilidad&quot;: 3}, {&quot;parametro&quot;: &quot;Demanda Química de Oxígeno (DQO)&quot;, &quot;total2025&quot;: 4114, &quot;corridas2025&quot;: 237, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Dureza&quot;, &quot;total2025&quot;: 70, &quot;corridas2025&quot;: 14, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Volumetría&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Eschericia coli&quot;, &quot;total2025&quot;: 133, &quot;corridas2025&quot;: 27, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Número Más Probable (NMP)&quot;, &quot;factibilidad&quot;: 3}, {&quot;parametro&quot;: &quot;Fenoles&quot;, &quot;total2025&quot;: 1021, &quot;corridas2025&quot;: 85, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis 2 pasos&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Fluoruros&quot;, &quot;total2025&quot;: 29, &quot;corridas2025&quot;: 7, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis 2 pasos&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Fosfatos&quot;, &quot;total2025&quot;: 2, &quot;corridas2025&quot;: 1, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Fósforo Total&quot;, &quot;total2025&quot;: 1101, &quot;corridas2025&quot;: 85, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;UV-Vis 2 pasos&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Hidrocarburos Totales de Petróleo&quot;, &quot;total2025&quot;: 1271, &quot;corridas2025&quot;: 150, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;Infrarrojo (TPH/AyG)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Hierro&quot;, &quot;total2025&quot;: 242, &quot;corridas2025&quot;: 45, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Manganeso&quot;, &quot;total2025&quot;: 121, &quot;corridas2025&quot;: 21, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Materia organica&quot;, &quot;total2025&quot;: 25, &quot;corridas2025&quot;: 9, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Gravimetría simple&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Mercurio&quot;, &quot;total2025&quot;: 491, &quot;corridas2025&quot;: 39, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Nitratos&quot;, &quot;total2025&quot;: 122, &quot;corridas2025&quot;: 23, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Nitritos&quot;, &quot;total2025&quot;: 148, &quot;corridas2025&quot;: 22, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Nitrógeno Total&quot;, &quot;total2025&quot;: 478, &quot;corridas2025&quot;: 45, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis 2 pasos&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Nitrógeno Total Kjeldahl (NTK)&quot;, &quot;total2025&quot;: 1310, &quot;corridas2025&quot;: 128, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;Volumetría&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Níquel&quot;, &quot;total2025&quot;: 384, &quot;corridas2025&quot;: 45, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Plata&quot;, &quot;total2025&quot;: 197, &quot;corridas2025&quot;: 38, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Plomo&quot;, &quot;total2025&quot;: 813, &quot;corridas2025&quot;: 65, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Potencial de Hidrógeno&quot;, &quot;total2025&quot;: 157, &quot;corridas2025&quot;: 28, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Electrometría&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Selenio&quot;, &quot;total2025&quot;: 158, &quot;corridas2025&quot;: 28, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Sulfatos&quot;, &quot;total2025&quot;: 1367, &quot;corridas2025&quot;: 107, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Sulfuros&quot;, &quot;total2025&quot;: 814, &quot;corridas2025&quot;: 77, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Sólidos Sedimentables&quot;, &quot;total2025&quot;: 581, &quot;corridas2025&quot;: 55, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Gravimetría simple&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Sólidos Suspendidos Totales (SST)&quot;, &quot;total2025&quot;: 3460, &quot;corridas2025&quot;: 158, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;Gravimetría simple&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Sólidos Totales (ST)&quot;, &quot;total2025&quot;: 2132, &quot;corridas2025&quot;: 142, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;Gravimetría simple&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Sólidos Totales Disueltos (SDT)&quot;, &quot;total2025&quot;: 276, &quot;corridas2025&quot;: 54, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Gravimetría simple&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Tensoactivos&quot;, &quot;total2025&quot;: 3630, &quot;corridas2025&quot;: 236, &quot;casosFuera&quot;: 1, &quot;tecnica&quot;: &quot;UV-Vis&quot;, &quot;factibilidad&quot;: 1}, {&quot;parametro&quot;: &quot;Vanadio&quot;, &quot;total2025&quot;: 333, &quot;corridas2025&quot;: 28, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}, {&quot;parametro&quot;: &quot;Zinc&quot;, &quot;total2025&quot;: 459, &quot;corridas2025&quot;: 42, &quot;casosFuera&quot;: 0, &quot;tecnica&quot;: &quot;Absorción Atómica (AAS)&quot;, &quot;factibilidad&quot;: 2}];
@@ -1097,7 +1103,7 @@ function key(){return 'cumplimiento_cc_'+currentMonth}
 function keyManual(){return 'cumplimiento_cc_manual_'+currentMonth}
 function keyAcciones(){return 'cumplimiento_cc_acciones_'+currentMonth}
 function keyMeta(){return 'cumplimiento_cc_meta_'+currentMonth}
-function init(){document.getElementById('months').innerHTML=MONTHS.map(m=>`<button class=&quot;month ${m===currentMonth?'active':''}&quot; onclick=&quot;switchMonth('${m}')&quot;>${m}</button>`).join('');document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showView(b.dataset.view)); loadMonth(); renderAll(); document.getElementById('firebaseConfig').value=localStorage.getItem('firebase_config_cumplimiento')||''}
+function init(){document.getElementById('months').innerHTML=MONTHS.map(m=>`<button class=&quot;month ${m===currentMonth?'active':''}&quot; onclick=&quot;switchMonth('${m}')&quot;>${m}</button>`).join('');document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showView(b.dataset.view)); loadMonth(); renderAll(); document.getElementById('firebaseConfig').value=localStorage.getItem('firebase_config_cumplimiento')||'';setTimeout(()=>{if(window._autoDb){db=window._autoDb;document.getElementById('syncStatus').textContent='Firebase conectado ✓';}},900);}
 window.switchMonth=m=>{currentMonth=m;document.querySelectorAll('.month').forEach(b=>b.classList.toggle('active',b.textContent===m));loadMonth();renderAll();}
 function showView(v){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===v));document.querySelectorAll('.view').forEach(s=>s.classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');renderAll()}
 function saveMonth(){localStorage.setItem(key(),JSON.stringify(primary));document.getElementById('syncStatus').textContent='Guardado local: '+currentMonth;}
@@ -1144,7 +1150,7 @@ window.renderKpi=()=>{renderChart(); let rows=kpiData().rows.map(r=>`<tr><td>${r
 function renderAll(){renderKpis();renderDatos();renderResumen();renderRiesgo();renderCumplimiento();renderKpi();}
 window.downloadJSON=()=>{let blob=new Blob([JSON.stringify({mes:currentMonth,datos:primary,cumplimientoManual:complianceManual,accionesCorrectivas:accionesCorrectivas,metaMes:metaMes},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='REPORTE_DE_ASEGURAMIENTO_'+currentMonth+'.json';a.click();}
 window.saveFirebaseConfig=()=>{localStorage.setItem('firebase_config_cumplimiento',document.getElementById('firebaseConfig').value);alert('Configuración guardada.');}
-window.connectFirebase=()=>{try{let cfg=JSON.parse(document.getElementById('firebaseConfig').value); let app=window.firebaseFns.initializeApp(cfg); db=window.firebaseFns.getFirestore(app); document.getElementById('syncStatus').textContent='Firebase conectado';}catch(e){alert('No se pudo conectar: '+e.message)}}
+window.connectFirebase=()=>{if(window._autoDb){db=window._autoDb;document.getElementById('syncStatus').textContent='Firebase conectado ✓';return;}try{const cfgRaw=document.getElementById('firebaseConfig').value.trim();const cfg=cfgRaw?JSON.parse(cfgRaw):{apiKey:'AIzaSyAWyaYt_MPVuNbtFEzDSG27Wezo_tcebqs',authDomain:'laboratorio-inventario.firebaseapp.com',projectId:'laboratorio-inventario',storageBucket:'laboratorio-inventario.firebasestorage.app',messagingSenderId:'422673655925',appId:'1:422673655925:web:98be5a8e86d93a9b87f03c'};let app=window.firebaseFns.initializeApp(cfg,'cc_manual');db=window.firebaseFns.getFirestore(app);document.getElementById('syncStatus').textContent='Firebase conectado';}catch(e){alert('No se pudo conectar: '+e.message)}}
 window.saveToCloud=async()=>{if(!db) connectFirebase(); if(!db)return; await window.firebaseFns.setDoc(window.firebaseFns.doc(db,'REPORTE_DE_ASEGURAMIENTO_MES',currentMonth),{mes:currentMonth,datos:primary,cumplimientoManual:complianceManual,accionesCorrectivas:accionesCorrectivas,metaMes:metaMes,updatedAt:window.firebaseFns.serverTimestamp()}); document.getElementById('syncStatus').textContent='Guardado en nube: '+currentMonth;}
 window.loadFromCloud=async()=>{if(!db) connectFirebase(); if(!db)return; let snap=await window.firebaseFns.getDoc(window.firebaseFns.doc(db,'REPORTE_DE_ASEGURAMIENTO_MES',currentMonth)); if(snap.exists()){primary=snap.data().datos||[]; complianceManual=snap.data().cumplimientoManual||{}; accionesCorrectivas=snap.data().accionesCorrectivas||{}; metaMes=snap.data().metaMes||{cerrado:false}; saveMonth(); saveManual(); saveAcciones(); saveMeta(); renderAll();alert('Datos cargados de nube.')}else alert('No hay datos en nube para '+currentMonth)}
 init();
@@ -1360,6 +1366,44 @@ td.param{font-weight:600;color:var(--navy);max-width:200px;overflow:hidden;text-
 /* ── MINI CHART CANVAS ───────────────────────────────── */
 .spark{display:inline-block;width:70px;height:22px;vertical-align:middle}
 &lt;/style&gt;
+&lt;script src=&quot;https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(function(){
+  const cfg={apiKey:&quot;AIzaSyAWyaYt_MPVuNbtFEzDSG27Wezo_tcebqs&quot;,authDomain:&quot;laboratorio-inventario.firebaseapp.com&quot;,projectId:&quot;laboratorio-inventario&quot;,storageBucket:&quot;laboratorio-inventario.firebasestorage.app&quot;,messagingSenderId:&quot;422673655925&quot;,appId:&quot;1:422673655925:web:98be5a8e86d93a9b87f03c&quot;};
+  try{
+    const n=&#x27;tend_app&#x27;;
+    const ex=firebase.apps.find(a=&gt;a.name===n);
+    window._tendDb=ex?firebase.app(n).firestore():firebase.initializeApp(cfg,n).firestore();
+    console.log(&#x27;Firebase Tendencias: OK&#x27;);
+  }catch(e){console.warn(&#x27;Firebase Tend:&#x27;,e.message);}
+  window.saveTendenciasFirebase=async function(data){
+    if(!window._tendDb)return;
+    try{
+      const col=window._tendDb.collection(&#x27;tendencias_registros&#x27;);
+      const cs=200,cc=[],tc=[];
+      for(let i=0;i&lt;(data.carga||[]).length;i+=cs)cc.push((data.carga||[]).slice(i,i+cs));
+      for(let i=0;i&lt;(data.tendencia||[]).length;i+=cs)tc.push((data.tendencia||[]).slice(i,i+cs));
+      await col.doc(&#x27;meta&#x27;).set({cargaChunks:cc.length,tendChunks:tc.length,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+      for(let i=0;i&lt;cc.length;i++)await col.doc(&#x27;carga_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).set({idx:i,rows:cc[i]});
+      for(let i=0;i&lt;tc.length;i++)await col.doc(&#x27;tend_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).set({idx:i,rows:tc[i]});
+      console.log(&#x27;Tendencias saved&#x27;);
+    }catch(e){console.warn(&#x27;Save tend:&#x27;,e.message);}
+  };
+  window.loadTendenciasFirebase=async function(){
+    if(!window._tendDb)return null;
+    try{
+      const col=window._tendDb.collection(&#x27;tendencias_registros&#x27;);
+      const meta=await col.doc(&#x27;meta&#x27;).get();
+      if(!meta.exists)return null;
+      const d=meta.data();let carga=[],tendencia=[];
+      for(let i=0;i&lt;d.cargaChunks;i++){const s=await col.doc(&#x27;carga_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).get();if(s.exists)carga=carga.concat(s.data().rows||[]);}
+      for(let i=0;i&lt;d.tendChunks;i++){const s=await col.doc(&#x27;tend_&#x27;+String(i).padStart(3,&#x27;0&#x27;)).get();if(s.exists)tendencia=tendencia.concat(s.data().rows||[]);}
+      return{carga,tendencia};
+    }catch(e){console.warn(&#x27;Load tend:&#x27;,e.message);return null;}
+  };
+})();
+&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -2176,6 +2220,7 @@ function processUpload() {
   tend_render();
   buildKPIs();
   alert(msg);
+  if(window.saveTendenciasFirebase){window.saveTendenciasFirebase({carga:DB.carga,tendencia:DB.tendencia});}
 }
 
 // Calculate all Tendencia columns for a new REC row
@@ -2807,6 +2852,16 @@ function c25_render(){
 // INIT
 // ══════════════════════════════════════════════════════
 window.addEventListener(&#x27;DOMContentLoaded&#x27;, ()=&gt;{
+  (async function(){
+    try{
+      const fb=await window.loadTendenciasFirebase();
+      if(fb&amp;&amp;(fb.carga.length&gt;0||fb.tendencia.length&gt;0)){
+        DB.carga.push(...fb.carga.filter(r=&gt;!DB.carga.some(e=&gt;e.clave===r.clave)));
+        DB.tendencia.push(...fb.tendencia.filter(r=&gt;!DB.tendencia.some(e=&gt;e.id_traz===r.id_traz)));
+        console.log(&#x27;FB Tendencias loaded:&#x27;,fb.carga.length,&#x27;+&#x27;,fb.tendencia.length);
+      }
+    }catch(e){console.warn(&#x27;FB load err:&#x27;,e);}
+  })();
   buildKPIs();
   cm_render();
   tend_render();
